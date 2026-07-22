@@ -1,0 +1,188 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Microsoft JhengHei",
+        sans-serif;
+
+    background: #f3f5f7;
+    color: #333;
+}
+
+
+/* 標題區 */
+
+header {
+
+    background: #1f4e79;
+    color: white;
+
+    padding: 25px;
+
+    text-align: center;
+
+}
+
+
+header h1 {
+
+    font-size: 28px;
+
+}
+
+
+header p {
+
+    margin-top: 8px;
+
+    font-size: 15px;
+
+    opacity: 0.9;
+
+}
+
+
+/* 主內容 */
+
+main {
+
+    max-width: 900px;
+
+    margin: 30px auto;
+
+    padding: 20px;
+
+}
+
+
+/* 三個狀態卡 */
+
+.summary {
+
+    display: flex;
+
+    gap: 15px;
+
+    margin-bottom: 25px;
+
+}
+
+
+.card {
+
+    flex: 1;
+
+    background: white;
+
+    border-radius: 15px;
+
+    padding: 20px;
+
+    text-align: center;
+
+    box-shadow:
+        0 3px 10px rgba(0,0,0,0.08);
+
+}
+
+
+.card h2 {
+
+    font-size: 30px;
+
+}
+
+
+.card p {
+
+    margin-top: 8px;
+
+}
+
+
+.card span {
+
+    display: block;
+
+    margin-top: 10px;
+
+    font-size: 32px;
+
+    font-weight: bold;
+
+}
+
+
+/* 新增按鈕 */
+
+#addBtn {
+
+    width: 100%;
+
+    padding: 16px;
+
+    background: #007aff;
+
+    color:white;
+
+    border:none;
+
+    border-radius:12px;
+
+    font-size:18px;
+
+    cursor:pointer;
+
+}
+
+
+#addBtn:hover {
+
+    background:#005ecb;
+
+}
+
+
+/* 缺失列表 */
+
+#list {
+
+    margin-top:20px;
+
+    background:white;
+
+    padding:20px;
+
+    border-radius:15px;
+
+    box-shadow:
+        0 3px 10px rgba(0,0,0,0.08);
+
+}
+
+
+/* 手機版 */
+
+@media(max-width:600px){
+
+    .summary{
+
+        flex-direction:column;
+
+    }
+
+
+    header h1{
+
+        font-size:22px;
+
+    }
+
+}

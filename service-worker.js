@@ -1,91 +1,34 @@
-// ========================================
-// HVAC 缺失追蹤系統
-// Safari 相容版 Service Worker
-// ========================================
+// 暫時停用 PWA Service Worker
+// 用來解除舊版 Service Worker 並清除快取
 
-const CACHE_NAME = "hvac-punch-log-v3";
-
-const STATIC_FILES = [
-    "./",
-    "./index.html",
-    "./style.css",
-    "./config.js",
-    "./app.js",
-    "./manifest.json"
-];
-
-// 安裝
-self.addEventListener("install", event => {
-    event.waitUntil(
-        caches.open(CACHE_NAME).then(cache => {
-            return cache.addAll(STATIC_FILES);
-        })
-    );
-
+self.addEventListener("install", () => {
     self.skipWaiting();
 });
 
-// 啟用並刪除舊快取
 self.addEventListener("activate", event => {
     event.waitUntil(
-        caches.keys().then(cacheNames => {
-            return Promise.all(
-                cacheNames
-                    .filter(name => name !== CACHE_NAME)
-                    .map(name => caches.delete(name))
-            );
-        })
-    );
+        Promise.all([
+            caches.keys().then(cacheNames => {
+                return Promise.all(
+                    cacheNames.map(cacheName => {
+                        return caches.delete(cacheName);
+                    })
+                );
+            }),
 
-    self.clients.claim();
-});
+            self.registration.unregister(),
 
-// 只處理同網域的 GET 請求
-self.addEventListener("fetch", event => {
-    const request = event.request;
-    const requestUrl = new URL(request.url);
-
-    // 不處理 POST、PUT 等請求
-    if (request.method !== "GET") {
-        return;
-    }
-
-    // 不攔截 Supabase、CDN 或其他外部網域
-    if (requestUrl.origin !== self.location.origin) {
-        return;
-    }
-
-    // 網頁導覽：網路優先，失敗才回首頁快取
-    if (request.mode === "navigate") {
-        event.respondWith(
-            fetch(request).catch(async () => {
-                const cache = await caches.open(CACHE_NAME);
-                return cache.match("./index.html");
-            })
-        );
-
-        return;
-    }
-
-    // CSS、JS、圖片：網路優先，失敗才讀快取
-    event.respondWith(
-        fetch(request)
-            .then(response => {
-                if (!response || response.status !== 200) {
-                    return response;
-                }
-
-                const responseClone = response.clone();
-
-                caches.open(CACHE_NAME).then(cache => {
-                    cache.put(request, responseClone);
+            self.clients.matchAll({
+                type: "window",
+                includeUncontrolled: true
+            }).then(clients => {
+                clients.forEach(client => {
+                    client.navigate(client.url);
                 });
-
-                return response;
             })
-            .catch(async () => {
-                const cache = await caches.open(CACHE_NAME);
-                return cache.match(request);
-            })
+        ])
     );
 });
+
+// 故意不建立 fetch 事件
+// 讓所有網路請求直接交給瀏覽器處理

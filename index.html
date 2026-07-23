@@ -3,379 +3,159 @@
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>HVAC 缺失追蹤系統</title>
+    <title>HVAC 缺失追蹤系統</title>
 
+    <link rel="stylesheet" href="style.css">
 
-<link rel="stylesheet" href="style.css">
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
 
-
-<!-- PWA設定 -->
-
-<link rel="manifest" href="manifest.json">
-
-
-<meta name="theme-color" content="#1f4e79">
-
+    <meta name="theme-color" content="#1f4e79">
 
 </head>
 
-
-
 <body>
-
-
 
 <header>
 
-<h1>🏗 HVAC 缺失追蹤系統</h1>
+    <h1>🏗 HVAC 缺失追蹤系統</h1>
 
-<p>建築工程缺失管理平台</p>
+    <p>建築工程缺失管理平台</p>
 
 </header>
 
-
-
-
-
 <main>
 
+    <!-- 統計 -->
+    <section class="summary">
 
+        <div class="card">
+            <h2>🔴</h2>
+            <p>待改善</p>
+            <span id="pendingCount">0</span>
+        </div>
 
-<section class="summary">
+        <div class="card">
+            <h2>🟡</h2>
+            <p>改善中</p>
+            <span id="progressCount">0</span>
+        </div>
 
+        <div class="card">
+            <h2>🟢</h2>
+            <p>已完成</p>
+            <span id="completeCount">0</span>
+        </div>
 
+    </section>
 
-<div class="card">
+    <!-- 新增按鈕 -->
+    <button id="addBtn">
+        ＋ 新增缺失
+    </button>
 
-<h2>🔴</h2>
+    <!-- 表單 -->
+    <section id="formArea" style="display:none;">
 
-<p>待改善</p>
+        <h2>新增缺失</h2>
 
-<span id="pendingCount">0</span>
+        <label>通報日期</label>
+        <input id="reportDate" type="date">
 
-</div>
+        <label>通報人</label>
+        <input id="reporter" placeholder="請輸入姓名">
 
+        <label>區域</label>
+        <input id="location" placeholder="例如：GT22機房">
 
+        <label>設備</label>
+        <input id="equipment" placeholder="例如：AHU-01">
 
+        <label>缺失描述</label>
+        <textarea
+            id="description"
+            placeholder="請輸入缺失內容"></textarea>
 
-<div class="card">
+        <label>📷 照片</label>
 
-<h2>🟡</h2>
+        <input
+            id="photo"
+            type="file"
+            accept="image/*"
+            multiple>
 
-<p>改善中</p>
+        <div id="preview"></div>
 
-<span id="progressCount">0</span>
+        <label>🎥 影片</label>
 
-</div>
+        <input
+            id="video"
+            type="file"
+            accept="video/*">
 
+        <div id="videoPreview"></div>
 
+        <label>狀態</label>
 
+        <select id="status">
 
+            <option value="待改善">
+                🔴 待改善
+            </option>
 
-<div class="card">
+            <option value="改善中">
+                🟡 改善中
+            </option>
 
-<h2>🟢</h2>
+            <option value="已完成">
+                🟢 已完成
+            </option>
 
-<p>已完成</p>
+        </select>
 
-<span id="completeCount">0</span>
+        <button id="saveBtn">
+            儲存缺失
+        </button>
 
-</div>
+    </section>
 
+    <!-- 缺失列表 -->
+    <section id="list">
 
+        <p>
+            目前尚無缺失紀錄
+        </p>
 
-</section>
-
-
-
-
-
-
-<button id="addBtn">
-
-＋ 新增缺失
-
-</button>
-
-
-
-
-
-
-
-
-
-<section id="formArea" style="display:none;">
-
-
-
-<h2>新增缺失</h2>
-
-
-
-
-<label>
-
-通報日期
-
-</label>
-
-<input id="reportDate" type="date">
-
-
-
-
-
-
-<label>
-
-通報人
-
-</label>
-
-<input id="reporter" placeholder="請輸入姓名">
-
-
-
-
-
-
-<label>
-
-區域
-
-</label>
-
-<input id="location" placeholder="例如：GT22機房">
-
-
-
-
-
-
-<label>
-
-設備
-
-</label>
-
-<input id="equipment" placeholder="例如：AHU-01">
-
-
-
-
-
-
-<label>
-
-缺失描述
-
-</label>
-
-
-<textarea 
-id="description"
-placeholder="請輸入缺失內容">
-</textarea>
-
-
-
-
-
-
-
-<label>
-
-📷 照片
-
-</label>
-
-
-<input
-
-id="photo"
-
-type="file"
-
-accept="image/*"
-
-multiple>
-
-
-
-
-<div id="preview"></div>
-
-
-
-
-
-
-
-<label>
-
-🎥 影片
-
-</label>
-
-
-<input
-
-id="video"
-
-type="file"
-
-accept="video/*">
-
-
-
-<div id="videoPreview"></div>
-
-
-
-
-
-
-
-
-
-<label>
-
-狀態
-
-</label>
-
-
-<select id="status">
-
-
-<option value="待改善">
-
-🔴 待改善
-
-</option>
-
-
-
-<option value="改善中">
-
-🟡 改善中
-
-</option>
-
-
-
-<option value="已完成">
-
-🟢 已完成
-
-</option>
-
-
-
-</select>
-
-
-
-
-
-
-
-<button id="saveBtn">
-
-儲存缺失
-
-</button>
-
-
-
-
-
-</section>
-
-
-
-
-
-
-
-
-
-<section id="list">
-
-<p>
-
-目前尚無缺失紀錄
-
-</p>
-
-
-</section>
-
-
-
-
-
-
+    </section>
 
 </main>
 
+<!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<!-- Supabase 設定 -->
+<script src="config.js"></script>
 
-
-
-
-
-
+<!-- 主程式 -->
 <script src="app.js"></script>
-
-
-
-
 
 <script>
 
+if ("serviceWorker" in navigator) {
 
-// 啟用 PWA Service Worker
+    window.addEventListener("load", () => {
 
+        navigator.serviceWorker.register("service-worker.js");
 
-if("serviceWorker" in navigator){
-
-
-window.addEventListener(
-
-"load",
-
-()=>{
-
-
-navigator.serviceWorker.register(
-
-"service-worker.js"
-
-);
-
+    });
 
 }
-
-);
-
-
-}
-
-
 
 </script>
 
-
-
-
-
 </body>
-
-
 </html>
